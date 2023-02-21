@@ -1,2 +1,2 @@
 # financeApp
-App desnvolvido com React Native
+App desenvolvido com React Native.
