@@ -1,19 +1,35 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AnimatePresence, MotiView, MotiText } from 'moti';
 
 export default function Movements({ data }) {
-    const [showValue,setShowValue] = useState(false);
+    const [showValue, setShowValue] = useState(false);
     return (
-        <TouchableOpacity style={styles.container} onPress={()=> setShowValue(!showValue)}>
+        <TouchableOpacity style={styles.container} onPress={() => setShowValue(!showValue)}>
             <Text style={styles.date}>{data.date}</Text>
             <View style={styles.content}>
                 <Text style={styles.label}>{data.label}</Text>
-                { showValue ? (
-                    <Text style={data.type === 1 ? styles.value : styles.espenses}>{data.type === 1 ? `R$ ${data.value}`: `R$ -${data.value}`}</Text>
-                ) : (
-                    <View style={styles.skeleton}>
+                {showValue ? (
+                    <AnimatePresence exitBeforeEnter>
+                        <MotiText
+                            style={data.type === 1 ? styles.value : styles.espenses}
+                            from={{
+                                translateX: 100,
+                            }}
+                            animate={{
+                                translateX: 0,
+                            }}
+                            transition={{
+                                type: "timing",
+                                duration: 500,
+                            }}
+                        >{data.type === 1 ? `R$ ${data.value}` : `R$ -${data.value}`}</MotiText>
+                    </AnimatePresence>) : (
+                    <AnimatePresence exitBeforeEnter>
+                        <View style={styles.skeleton}>
 
-                    </View>
+                        </View>
+                    </AnimatePresence>
                 )}
             </View>
         </TouchableOpacity>
@@ -51,11 +67,11 @@ const styles = StyleSheet.create({
         color: '#e74c3c',
         fontWeight: 'bold'
     },
-    skeleton:{
-        marginTop:6,
+    skeleton: {
+        marginTop: 6,
         width: 80,
         height: 10,
-        backgroundColor:'#DADADA',
-        borderRadius:8,
+        backgroundColor: '#DADADA',
+        borderRadius: 8,
     }
 })
